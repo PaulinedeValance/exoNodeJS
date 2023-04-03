@@ -50,7 +50,7 @@ terminal.on('line', (answer) => {
 
   tryNumber--;
 
-  // Si le joueur a utilisé tout ses essais, il perd et ela quitte le process
+  // Si le joueur a utilisé tout ses essais, il perd et cela quitte le process
   if (tryNumber === 0) {
     console.log('PERDU');
     process.exit(0);
