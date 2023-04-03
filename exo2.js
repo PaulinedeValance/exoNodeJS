@@ -49,7 +49,7 @@ try {
     // Créer un tableau pour stocker les données
     const students = [];
 
-     // Utilisation du line pour diviser les données en lignes et les traiter
+    // Utilisation du line pour diviser les données en lignes et les traiter
     data.split('\n').forEach(line => {
         const [notes, name] = line.split(' ');
 
@@ -68,7 +68,7 @@ try {
 }
 
 // 4. Récupérez les données dans un objet student, puis ajoutez chaque étudiant dans un tableau students.
-    const students = [];
+const students = [];
 try {
     const data = fs.readFileSync('students.txt', 'utf-8');
 
@@ -92,27 +92,27 @@ try {
 }
 
 // 5. Ordonnez maintenant l'ensemble des données dans le tableau.
-    const sortStudents = students.sort((a, b) => b.notes - a.notes);
-    console.log(sortStudents);
+const sortStudents = students.sort((a, b) => b.notes - a.notes);
+console.log(sortStudents);
 
 // 6. Ajoutez dans le fichier students.txt les étudiants suivants : 18 Jeanne Paris et 17 Clarisse Marseille
-// fs.appendFileSync('students.txt', '\n18 Jeanne Paris');
-// fs.appendFileSync('students.txt', '\n17 Clarisse Marseille');
+fs.appendFileSync('students.txt', '\n18 Jeanne Paris');
+fs.appendFileSync('students.txt', '\n17 Clarisse Marseille');
 
 // 7. Lire le fichier lui-même et mettez chaque nom en majuscule
 try {
-  const data = fs.readFileSync('students.txt', 'utf-8');
+    const data = fs.readFileSync('students.txt', 'utf-8');
 
-  // Mettre chaque nom en majuscule
-  const uppercaseData = data.split('\n').map(line => {
-    const [notes, name, address] = line.split(' ');
-    return `${notes} ${name.toUpperCase()} ${address}`;
-  }).join('\n');
+    // Mettre chaque nom en majuscule
+    const uppercaseData = data.split('\n').map(line => {
+        const [notes, name, address] = line.split(' ');
+        return `${notes} ${name.toUpperCase()} ${address}`;
+    }).join('\n');
 
-  // Réécrire le fichier avec les noms en majuscule
-  fs.writeFileSync('students.txt', uppercaseData);
+    // Réécrire le fichier avec les noms en majuscule
+    fs.writeFileSync('students.txt', uppercaseData);
 
-  console.log('Ajout fait');
+    console.log('Ajout fait');
 } catch (err) {
-  console.error(err);
+    console.error(err);
 }
