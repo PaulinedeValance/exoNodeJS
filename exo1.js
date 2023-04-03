@@ -25,7 +25,9 @@ const terminal = readline.createInterface({
 terminal.setPrompt('Devinez le nombre :');
 terminal.prompt();
 
+
 terminal.on('line', (answer) => {
+  // Parse le nombre de l'utilisateur 
   const answerNum = parseInt(answer);
 
   // Si le nombre est trop grand, on le dit, et on décremente le nombre d'essais
