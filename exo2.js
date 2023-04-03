@@ -68,10 +68,10 @@ try {
 }
 
 // 4. Récupérez les données dans un objet student, puis ajoutez chaque étudiant dans un tableau students.
-
+    const students = [];
 try {
     const data = fs.readFileSync('students.txt', 'utf-8');
-    const students = [];
+
 
     data.split('\n').forEach(line => {
         const [notes, name, address] = line.split(' ');
@@ -92,41 +92,15 @@ try {
 }
 
 // 5. Ordonnez maintenant l'ensemble des données dans le tableau.
-
-try {
-    const data = fs.readFileSync('students.txt', 'utf-8');
-    const students = [];
-    
-    data.split('\n').forEach(line => {
-        const [notes, name, address] = line.split(' ');
-
-        // Création d'un objet student
-        const student = {
-            notes: notes,
-            name: name,
-            address: address
-        }
-
-        students.push(student)
-        //console.log(student);
-
-    })
-
-    // Tri des étudiants par notes, de la plus haute à la plus basse
     const sortStudents = students.sort((a, b) => b.notes - a.notes);
     console.log(sortStudents);
 
-} catch (err) {
-    console.error(err);
-}
-
 // 6. Ajoutez dans le fichier students.txt les étudiants suivants : 18 Jeanne Paris et 17 Clarisse Marseille
-fs.appendFileSync('students.txt', '\n18 Jeanne Paris');
-fs.appendFileSync('students.txt', '\n17 Clarisse Marseille');
+// fs.appendFileSync('students.txt', '\n18 Jeanne Paris');
+// fs.appendFileSync('students.txt', '\n17 Clarisse Marseille');
 
 // 7. Lire le fichier lui-même et mettez chaque nom en majuscule
 try {
-  // Lire le contenu du fichier
   const data = fs.readFileSync('students.txt', 'utf-8');
 
   // Mettre chaque nom en majuscule
@@ -138,7 +112,7 @@ try {
   // Réécrire le fichier avec les noms en majuscule
   fs.writeFileSync('students.txt', uppercaseData);
 
-  console.log('Noms en majuscule ajoutés au fichier !');
+  console.log('Ajout fait');
 } catch (err) {
   console.error(err);
 }
