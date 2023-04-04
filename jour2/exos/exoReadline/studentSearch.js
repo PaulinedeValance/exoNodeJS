@@ -9,7 +9,7 @@ rl.question("Nom de l'étudiant svp ?", function(name) {
     const guessStudent = students.find(student => student.toLowerCase() === studentName);
     console.log(guessStudent);
 
-    if(studentName) {
+    if(guessStudent) {
         console.log(`${guessStudent} est bien un élève`);
     } else {
         console.log("Etudiant non trouvé");
