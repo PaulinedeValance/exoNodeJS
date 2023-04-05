@@ -29,7 +29,7 @@ const server = http.createServer((req, res) => {
         </body>
       </html>`
         )
-    } else if (req.url === '/utils') {
+    } else if (req.url === '/shuffle') {
         // Si l'URL est /shuffle, mélanger les utilisateurs
         const shuffledUsers = shuffle(users);
         users.splice(0, users.length, ...shuffledUsers);
