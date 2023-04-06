@@ -1,0 +1,8 @@
+.user-card
+  h4= `${loggedUser.name.first} ${loggedUser.name.last.toUpperCase()} `
+    <small>(#{loggedUser.age} ans)</small>
+  p Né le #{loggedUser.birthdate.getDate()}/#{loggedUser.birthdate.getMonth() + 1}/#{loggedUser.birthdate.getFullYear()}
+  p Vit à
+    strong #{loggedUser.location.city}, #{loggedUser.location.zipcode}
+  if loggedUser.isAdmin
+    span.badge-admin Est administrateur
