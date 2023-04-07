@@ -8,7 +8,7 @@ const menuItems = [
 ];
 
 try{
-    const renderTemplate = pug.compileFile('layout.pug', { pretty: true});
+    const renderTemplate = pug.compileFile('./views/layout.pug', { pretty: true});
     const result = renderTemplate({menuItems});
     console.log(result);
 }catch (err) {
