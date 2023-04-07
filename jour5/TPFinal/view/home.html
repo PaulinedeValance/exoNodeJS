@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Je n'ai pas réussi à faire marcher ma feuille de style style.css du coup j'ai mis mon css ici, chose qui ne se fait pas normalement...-->
+
+    <style>
+        h1 {
+            color: crimson;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        a {
+            text-decoration: none;
+            color: crimson;
+
+        }
+
+        .student-link {
+            text-align: center;
+            padding-top: 50px;
+        }
+    </style>
+
+    <title>Page d'accueil</title>
+</head>
+
+<body>
+    <h1>Ajouter un étudiant</h1>
+    <form action="/students" method="POST">
+        <div>
+            <label for="name">Nom :</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="birth">Date de naissance :</label>
+            <input type="date" id="birth" name="birth" required>
+        </div>
+        <button type="submit">Ajouter</button>
+    </form>
+    <div class="student-link">
+        <a href="/students">Voir la liste des étudiants</a>
+    </div>
+
+</body>
+
+</html>

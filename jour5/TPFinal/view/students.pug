@@ -1,0 +1,22 @@
+doctype html
+html(lang='fr')
+    head
+        title Liste des étudiants
+        link(rel="stylesheet", href="/assets/css/style.css")
+
+    body 
+    h2 Liste des étudiants
+    table
+      thead
+        tr
+          th Nom
+          th Date de naissance
+          th Supprimer
+      tbody
+        each student in students
+          tr
+            td= student.name
+            td= student.formattedBirth
+            td
+              button(type="button", onclick=`deleteStudent('${student.name}')`) Supprimer
+    a(href="/")
