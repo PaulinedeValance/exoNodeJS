@@ -24,10 +24,11 @@ html
        p Aucun utilisateur connecté
 
     .main
-      #messages
+      
       form(action='/chat', method='post')
         input(type='text', name='message', placeholder='Tapez votre message ici...')
         button(type='submit') Envoyer
+      #messages  
     script.
       const socket = io.connect('http://localhost:9000');
       let username = prompt('Entrez votre pseudo');

@@ -11,11 +11,17 @@ let connectedUsers = [];
 io.on('connection', (socket) => {
   console.log(`Client ${socket.id} is connected via WebSockets`);
 
-  // Ajouter un utilisateur connecté à la liste des utilisateurs connectés
+
   socket.on('newUser', (username) => {
-    connectedUsers.push(username);
+    connectedUsers = [...connectedUsers, username];
     io.emit('updateUserList', connectedUsers);
   });
+  
+  // Ajouter un utilisateur connecté à la liste des utilisateurs connectés
+  // socket.on('newUser', (username) => {
+  //   connectedUsers.push(username);
+  //   io.emit('updateUserList', connectedUsers);
+  // });
 
   // Mettre à jour le pseudo d'un utilisateur dans la liste des utilisateurs connectés
   socket.on('updateUsername', ({ oldUsername, newUsername }) => {
