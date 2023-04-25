@@ -1,0 +1,48 @@
+doctype html
+html
+  head
+    title= "Ma page"
+    link(rel='stylesheet', href='/style.css')
+    script(src='/socket.io/socket.io.js')
+  body
+    h1= message
+    form#username-form
+    label(for='username-input') Username:
+    input#username-input(type='text' name='username')
+    button#username-submit(type='submit') Join
+    .sidebar
+      h2 Channels
+      ul
+        li General
+        li Gaming
+        li Random
+    .sidebarRight
+      h2 Connected Users
+      if users && users.length
+       ul#user-list
+        each user in users
+         li= user
+
+    .main
+      #messages
+      form(action='/chat', method='post')
+        input(type='text', name='message', placeholder='Tapez votre message ici...')
+        button(type='submit') Envoyer
+    script.
+      const socket = io.connect('http://localhost:9000');
+      socket.on('connect', function() {
+        console.log('Connected via WebSocket');
+      });
+      socket.on('updateUserList', function(users) {
+        const userList = document.getElementById('user-list');
+        // Effacer la liste actuelle des utilisateurs
+        //- while (userList.firstChild) {
+        //-   userList.removeChild(userList.firstChild);
+        //- }
+        // Ajouter chaque utilisateur à la liste
+        users.forEach(function(user) {
+          const userElement = document.createElement('li');
+          userElement.textContent = user;
+          userList.appendChild(userElement);
+        });
+      });

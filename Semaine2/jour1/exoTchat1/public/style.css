@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .sidebar {
+    width: 25%;
+    height: 100vh;
+    background-color: #EEE;
+    float: left;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+  
+  .sidebar h2 {
+    margin-top: 0;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    margin-bottom: 10px;
+  }
+
+  .sidebarRight {
+    width: 20%;
+    padding: 20px;
+    background-color: #eee;
+    float: right;
+  }
+
+  ul#user-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  ul#user-list li {
+    margin-bottom: 10px;
+  }
+  
+  .main {
+    width: 75%;
+    height: 100vh;
+    background-color: #FFF;
+    float: left;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+
+  h1 {
+    margin-left: 20px;
+  }
+  
+  .main h1 {
+    margin-top: 0;
+  }
+  
+  .main form {
+    margin-bottom: 20px;
+  }
+  
+  .main input[type="text"] {
+    width: 60%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+    box-sizing: border-box;
+  }
+
+  input::placeholder {
+    font-style: italic;
+  }
+  
+  .main button[type="submit"] {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: #FFF;
+    cursor: pointer;
+  }
+  
+  .main ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .main li {
+    margin-bottom: 10px;
+  }
+
+  
