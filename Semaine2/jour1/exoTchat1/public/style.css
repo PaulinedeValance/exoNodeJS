@@ -34,6 +34,18 @@ body {
     float: right;
   }
 
+  .sidebarRight ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .sidebarRight li {
+    width: 100%;
+    float: left;
+    margin-bottom: 5px;
+  }
+
   ul#user-list {
     list-style: none;
     padding: 0;
