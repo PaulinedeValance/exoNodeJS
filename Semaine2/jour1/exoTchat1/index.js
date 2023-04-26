@@ -1,5 +1,6 @@
 const express = require('express');
 const http = require('http');
+const path = require('path');
 const app = express();
 const server = http.Server(app);
 const io = require('socket.io')(server);
@@ -7,62 +8,76 @@ const io = require('socket.io')(server);
 const port = 9000;
 
 let connectedUsers = [];
+let channels = {
+  'General': [],
+  'Graphisme': [],
+  'Developpement': []
+}
 
 io.on('connection', (socket) => {
-  console.log(`Client ${socket.id} is connected via WebSockets`);
-
+  console.log(`Client ${socket.id} est connecté`);
 
   socket.on('newUser', (username) => {
-    connectedUsers = [...connectedUsers, username];
-    io.emit('updateUserList', connectedUsers);
+    connectedUsers.push({ name: username, channel: "General" });
+    io.emit('updateUserList', connectedUsers.filter((user) => user.channel === "General").map((user) => user.name));
   });
-  
-  // Ajouter un utilisateur connecté à la liste des utilisateurs connectés
-  // socket.on('newUser', (username) => {
-  //   connectedUsers.push(username);
-  //   io.emit('updateUserList', connectedUsers);
-  // });
 
-  // Mettre à jour le pseudo d'un utilisateur dans la liste des utilisateurs connectés
   socket.on('updateUsername', ({ oldUsername, newUsername }) => {
-    const index = connectedUsers.indexOf(oldUsername);
+    const index = connectedUsers.findIndex((user) => user.name === oldUsername);
     if (index !== -1) {
-      connectedUsers.splice(index, 1, newUsername);
-      io.emit('updateUserList', connectedUsers);
+      connectedUsers.splice(index, 1, { name: newUsername, channel: "General" });
+      io.emit('updateUserList', connectedUsers.filter((user) => user.channel === "General").map((user) => user.name));
     }
   });
 
-  // Envoyer un message à tous les utilisateurs connectés
   socket.on('sendMessage', ({ username, message }) => {
     io.emit('newMessage', { username, message });
   });
 
-  // Supprimer un utilisateur déconnecté de la liste des utilisateurs connectés
   socket.on('disconnect', () => {
     console.log(`Client ${socket.id} is disconnected`);
-    const index = connectedUsers.indexOf(socket.username);
+    const index = connectedUsers.findIndex((user) => user.id === socket.id);
     if (index !== -1) {
       connectedUsers.splice(index, 1);
-      io.emit('updateUserList', connectedUsers);
+      io.emit('updateUserList', connectedUsers.filter((user) => user.channel === "General").map((user) => user.name));
     }
+  });
+
+  socket.on('notifyTyping', () => {
+    socket.broadcast.emit('typingNotification', socket.username);
+  });
+
+  socket.on('changeChannel', (channel) => {
+    // Retirer l'utilisateur du canal précédent
+    const previousChannel = Object.keys(channels).find(key => channels[key].includes(socket.username));
+    if (previousChannel !== undefined) {
+      const index = channels[previousChannel].indexOf(socket.username);
+      if (index !== -1) {
+        channels[previousChannel].splice(index, 1);
+      }
+      io.to(previousChannel).emit('updateUserList', channels[previousChannel].map((user) => user.name));
+      socket.leave(previousChannel);
+    }
+  
+    // Ajouter l'utilisateur au nouveau canal
+    channels[channel].push(socket.username);
+    io.to(channel).emit('updateUserList', channels[channel].map((user) => user.name));
+    socket.join(channel);
   });
 });
 
-// Configuration de Pug comme moteur de template par défaut
 app.set('view engine', 'pug');
-
-// Définir le dossier views comme le dossier contenant les vues
 app.set('views', './views');
 
-// Définir la route pour la page d'accueil
 app.get('/', (req, res) => {
   res.render('index', {
     title: 'Ma page d\'accueil',
     message: 'Bienvenue sur ce chat',
-    users: connectedUsers
+    channels: channels,
+    users: connectedUsers.filter((user) => user.channel === "General").map((user) => user.name)
   });
 });
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')))
 
 server.listen(port, () => console.log(`✓ Le serveur écoute sur le port ${port}`));

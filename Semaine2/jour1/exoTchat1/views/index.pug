@@ -1,9 +1,91 @@
+//- doctype html
+//- html
+//-   head
+//-     title= "Ma page"
+//-     link(rel='stylesheet', href='/style.css')
+//-     script(src='/socket.io/socket.io.js')
+//-     script(src='/scripts/client.js')
+//-   body
+//-     h1= message
+//-     .username-container
+//-       p Connecté en tant que #{username}
+//-       button#change-username Changer le pseudo
+//-     .sidebar
+//-       h2 Channels
+//-       ul
+//-          each channel, channelName in channels
+//-           li
+//-             a(href='#', data-channel=channelName)= channelName
+//-               ul 
+//-                 each user in channel
+//-                   li= user
+//-     .sidebarRight
+//-       h2 Utilisateurs connectés
+//-       p #{username}
+//-       if users && users.length
+//-        ul#user-list
+//-       else
+//-        p Aucun utilisateur connecté
+
+//-     .main
+//-       #typing-notification
+//-       #messages
+//-       form(action='/chat', method='post')
+//-         input(id='message-input', type='text', name='message', placeholder='Tapez votre message ici...')
+//-         button(type='submit') Envoyer
+//-       script(src='/scripts/client.js')  
+//-     script.
+//-       const socket = io.connect('http://localhost:9000');
+//-       let username = prompt('Entrez votre pseudo');
+//-       document.querySelector('.username-container p').textContent = `Connecté en tant que ${username}`;
+
+//-       socket.emit('newUser', username);
+
+//-       document.querySelector('#change-username').addEventListener('click', () => {
+//-         let newUsername = prompt('Entrez votre nouveau pseudo');
+//-         socket.emit('updateUsername', { oldUsername: username, newUsername });
+//-         username = newUsername;
+//-         document.querySelector('.username-container p').textContent = `Connecté en tant que ${username}`;
+//-       });
+
+//-       document.querySelector('form').addEventListener('submit', (event) => {
+//-         event.preventDefault();
+//-         let message = event.target.elements.message.value;
+//-         socket.emit('sendMessage', { username, message });
+//-         event.target.elements.message.value = '';
+//-       });
+
+//-       socket.on('updateUserList', function(users) {
+//-         let userList = document.getElementById('user-list');
+//-         if (userList) {
+//-           while (userList.firstChild) {
+//-             userList.removeChild(userList.firstChild);
+//-           }
+//-           users.forEach(function(user) {
+//-             let userElement = document.createElement('li');
+//-             userElement.textContent = user;
+//-             userList.appendChild(userElement);
+//-           });
+//-         }
+//-       });
+
+//-       socket.on('newMessage', function({ username, message }) {
+//-         let messages = document.querySelector('#messages');
+//-         let messageElement = document.createElement('div');
+//-         messageElement.classList.add('message');
+//-         messageElement.innerHTML = `<p><strong>${username}</strong> : ${message}</p>`;
+//-         messages.appendChild(messageElement);
+//-       });
+
+
+
 doctype html
 html
   head
     title= "Ma page"
     link(rel='stylesheet', href='/style.css')
     script(src='/socket.io/socket.io.js')
+    script(src='/scripts/client.js')
   body
     h1= message
     .username-container
@@ -12,23 +94,29 @@ html
     .sidebar
       h2 Channels
       ul
-        li General
-        li Gaming
-        li Random
+        each channel, channelName in channels
+          li
+            a(href='#', data-channel=channelName)= channelName
+              ul 
+                each user in channel
+                  if channelName !== 'Users'
+                    li= user
     .sidebarRight
       h2 Utilisateurs connectés
-      p #{username}
       if users && users.length
-       ul#user-list
+        ul#user-list
+          each user in users
+            li= user
       else
-       p Aucun utilisateur connecté
+        p Aucun utilisateur connecté
 
     .main
-      
+      #typing-notification
+      #messages
       form(action='/chat', method='post')
-        input(type='text', name='message', placeholder='Tapez votre message ici...')
+        input(id='message-input', type='text', name='message', placeholder='Tapez votre message ici...')
         button(type='submit') Envoyer
-      #messages  
+      script(src='/scripts/client.js')  
     script.
       const socket = io.connect('http://localhost:9000');
       let username = prompt('Entrez votre pseudo');
