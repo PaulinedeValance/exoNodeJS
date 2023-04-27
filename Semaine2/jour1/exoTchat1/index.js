@@ -18,6 +18,7 @@ io.on('connection', (socket) => {
   console.log(`Client ${socket.id} est connecté`);
 
   socket.on('newUser', (username) => {
+    // J'ajoute un nouvel utilisateur à la liste des users connecté
     connectedUsers.push({ name: username, channel: "General" });
     io.emit('updateUserList', connectedUsers.filter((user) => user.channel === "General").map((user) => user.name));
   });
@@ -31,6 +32,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMessage', ({ username, message }) => {
+    // Envoie d'un message aux users connectés
     io.emit('newMessage', { username, message });
   });
 
@@ -48,7 +50,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('changeChannel', (channel) => {
-    // Retirer l'utilisateur du canal précédent
+    // Je retire l'utilisateur du canal précédent
     const previousChannel = Object.keys(channels).find(key => channels[key].includes(socket.username));
     if (previousChannel !== undefined) {
       const index = channels[previousChannel].indexOf(socket.username);
@@ -59,7 +61,7 @@ io.on('connection', (socket) => {
       socket.leave(previousChannel);
     }
   
-    // Ajouter l'utilisateur au nouveau canal
+    // J'ajoute l'utilisateur au nouveau canal
     channels[channel].push(socket.username);
     io.to(channel).emit('updateUserList', channels[channel].map((user) => user.name));
     socket.join(channel);
